@@ -30,32 +30,8 @@ get_date() {
 }
 
 
-get_bat() {
-    # change BAT0 to match your battery if needed
-    BAT_PATH=/sys/class/power_supply/BAT0
-
-    if [ -r "$BAT_PATH/capacity" ] && [ -r "$BAT_PATH/status" ]; then
-        capacity=$(cat "$BAT_PATH/capacity")   # e.g. “83”
-        status=$(cat "$BAT_PATH/status")       # e.g. “Charging” or “Discharging”
-
-        # Pick an icon based on status
-        case "$status" in
-            Charging)   icon="⚡" ;;
-            Discharging) icon="🔋" ;;
-            Full)       icon="✔️" ;;
-            *)          icon="🔌" ;;
-        esac
-
-        echo "$icon ${capacity}%"
-    else
-        # no battery found / not a laptop
-        echo ""
-    fi
-}
-
-
 get_net() {
-    IF="enp88s0"  # ← change to your interface name
+    IF="eth0"  # ← change to your interface name
     # read initial counters
     RX1=$(cat /sys/class/net/$IF/statistics/rx_bytes)
     TX1=$(cat /sys/class/net/$IF/statistics/tx_bytes)

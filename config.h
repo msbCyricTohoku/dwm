@@ -1,9 +1,9 @@
 /* See LICENSE file for copyright and license details. */
 
 /* Constants */
-#define TERMINAL "alacritty"
-#define TERMCLASS "Alacritty"
-#define BROWSER "chromium"
+#define TERMINAL "st"
+#define TERMCLASS "st"
+#define BROWSER "librewolf"
 
 /* appearance */
 static unsigned int borderpx  = 2;        /* border pixel of windows */
@@ -92,7 +92,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -142,23 +142,33 @@ static const Key keys[] = {
 	/* modifier              key            function                argument */
 	/* Application Bindings */
 	{ MODKEY,			     XK_Return,     spawn,                  {.v = termcmd } },
-	{ MODKEY,			     XK_w,          spawn,                  SHCMD("/usr/bin/chromium --proxy-server=socks5://127.0.0.1:1089") },
+	{ MODKEY,			     XK_w,          spawn,                  SHCMD("librewolf") },
+	{ MODKEY|ShiftMask,		     XK_w,          spawn,                  SHCMD("chromium") },
 	{ MODKEY,			     XK_d,          spawn,                  SHCMD("dmenu_run") },
-	{ MODKEY,			     XK_e,          spawn,                  SHCMD("vscodium") },
+	{ MODKEY,			     XK_e,          spawn,                  SHCMD("emacs") },
 	{ MODKEY|ShiftMask,		 XK_e,          spawn,                  SHCMD("emacs") },
-	{ MODKEY,			     XK_r,          spawn,                  SHCMD("caja") },
+	{ MODKEY,			     XK_r,          spawn,                  SHCMD("thunar") },
 	{ MODKEY|ShiftMask,      XK_m,          spawn,                  SHCMD("thunderbird") },
 	{ MODKEY|ShiftMask,      XK_o,          spawn,                  SHCMD("libreoffice") },
 	{ MODKEY|ControlMask,    XK_t,          spawn,                  SHCMD("texstudio") },
 	{ MODKEY|ControlMask,    XK_f,          spawn,                  SHCMD("filezilla") },
 	{ MODKEY|ControlMask,    XK_b,          spawn,                  SHCMD("transmission-gtk") },
 	{ MODKEY|ShiftMask,		 XK_v,          spawn,                  SHCMD("virtualbox") },
-    { 0,                     XK_Print,      spawn,                  SHCMD("screengrab -f") },
+    { 0,                     XK_Print,      spawn,                  SHCMD("maim -s | xclip -selection clipboard -t image/png -i") },
 	{ ShiftMask,			 XK_Print,      spawn,                  SHCMD("screengrab -r") },
 	/* Volume Bindings */
-	{ MODKEY,			XK_F1,		spawn,		SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle") },
-	{ MODKEY,			XK_F2,		spawn,		SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%") },
-	{ MODKEY,			XK_F3,		spawn,		SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%") },
+	//{ MODKEY,			XK_F1,		spawn,		SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle") },
+	//{ MODKEY,			XK_F2,		spawn,		SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%") },
+	//{ MODKEY,			XK_F3,		spawn,		SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%") },
+//	{ 0, XF86XK_AudioMute,        spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle") },
+ //   { 0, XF86XK_AudioLowerVolume, spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%") },
+  //  { 0, XF86XK_AudioRaiseVolume, spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%") },
+
+
+	{ 0, XF86XK_AudioMute,        spawn, SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle") },
+    { 0, XF86XK_AudioLowerVolume, spawn, SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-") },
+    { 0, XF86XK_AudioRaiseVolume, spawn, SHCMD("wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+") },
+
 	/* Lockscreen Binding */
 	{ MODKEY|ControlMask,		XK_l,		spawn,		SHCMD("slock") },
 
